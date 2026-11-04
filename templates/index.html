@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CloudWin</title>
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0b1020;
+  color: #edf2ff;
+  font-family: Arial, sans-serif;
+  display: grid;
+  place-items: center;
+}
+main {
+  width: min(850px, 90%);
+  background: #111a30;
+  border: 1px solid #263858;
+  border-radius: 20px;
+  padding: 28px;
+}
+h1 { font-size: 42px; }
+p { color: #a8b6d8; }
+button {
+  padding: 13px 20px;
+  margin: 5px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.primary { background: #78aaff; }
+.secondary { background: #243654; color: white; }
+a { color: #9fc5ff; }
+</style>
+</head>
+<body>
+<main>
+<h1>CloudWin</h1>
+<p>Your Windows computer, streamed to your browser.</p>
+<h2 id="state">Checking status...</h2>
+
+<button class="primary" onclick="action('/api/start')">
+Start Windows
+</button>
+
+<button class="secondary" onclick="action('/api/shutdown')">
+Shut down Windows
+</button>
+
+<p id="message"></p>
+
+<a href="/novnc/vnc.html?host=127.0.0.1&port=6080&encrypt=false&path=websockify&autoconnect=true&resize=scale">
+Open Windows desktop
+</a>
+</main>
+
+<script>
+const TOKEN = {{ token|tojson }};
+
+async function refresh() {
+  try {
+    const response = await fetch('/api/status');
+    const data = await response.json();
+    document.getElementById('state').textContent =
+      data.name + ': ' + data.state;
+  } catch {
+    document.getElementById('state').textContent =
+      'Connection unavailable';
+  }
+}
+
+async function action(path) {
+  const message = document.getElementById('message');
+  message.textContent = 'Sending command...';
+
+  try {
+    const response = await fetch(path, {
+      method: 'POST',
+      headers: {'X-CloudWin-Token': TOKEN}
+    });
+    const data = await response.json();
+    message.textContent = data.output || 'Command sent.';
+    refresh();
+  } catch (error) {
+    message.textContent = error.message;
+  }
+}
+
+refresh();
+setInterval(refresh, 5000);
+</script>
+</body>
+</html>
