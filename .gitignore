@@ -1,0 +1,8 @@
+config.env
+.venv/
+novnc/
+__pycache__/
+*.pyc
+*.qcow2
+*.iso
+.cloudwin-token
