@@ -1,0 +1,21 @@
+
+[Unit]
+Description=CloudWin Web Dashboard
+After=libvirtd.service
+Requires=libvirtd.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/cloudwin
+Environment=VM_NAME=cloudwin
+ExecStart=/opt/cloudwin/.venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8080 app:app
+Restart=on-failure
+User=root
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/cloudwin
+
+[Install]
+WantedBy=multi-user.target
