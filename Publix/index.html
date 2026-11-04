@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CloudWin</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #eef5ff;
+  background: radial-gradient(ellipse at top left,#174d55,transparent 55%),
+              linear-gradient(135deg,#071321,#10152c 65%,#102c32);
+}
+header {
+  padding: 25px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ffffff18;
+}
+.logo { font-size: 25px; font-weight: bold; }
+.logo span { color: #69e6c1; }
+main { max-width: 950px; margin: 65px auto; padding: 20px; }
+h1 { font-size: clamp(38px,7vw,65px); margin-bottom: 12px; }
+.subtitle { color: #a8b8ca; line-height: 1.7; }
+.panel {
+  margin-top: 35px;
+  padding: 28px;
+  border: 1px solid #ffffff20;
+  border-radius: 18px;
+  background: #ffffff09;
+  box-shadow: 0 20px 70px #0005;
+}
+.status { color: #ffd479; font-weight: bold; }
+.dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: #e8b84f;
+  margin-right: 8px;
+}
+button {
+  padding: 13px 22px;
+  margin-top: 18px;
+  border: 0;
+  border-radius: 9px;
+  background: #69e6c1;
+  color: #071321;
+  font-weight: bold;
+  cursor: not-allowed;
+  opacity: .65;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+.tile {
+  padding: 20px;
+  border-radius: 12px;
+  background: #ffffff0b;
+  border: 1px solid #ffffff12;
+}
+.tile p { color: #9eafc3; font-size: 14px; }
+footer { text-align: center; padding: 35px; color: #8293a8; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">☁ Cloud<span>Win</span></div>
+  <div>Browser VM Project</div>
+</header>
+<main>
+  <p style="color:#69e6c1">YOUR CLOUD WINDOWS ENVIRONMENT</p>
+  <h1>Welcome to CloudWin.</h1>
+  <p class="subtitle">
+    Your own remote Windows environment, designed to be
+    accessible from your browser.
+  </p>
+
+  <section class="panel">
+    <h2>Virtual machine</h2>
+    <p class="status"><span class="dot"></span>VM host not connected</p>
+    <p class="subtitle">
+      Your dashboard is online, but the Windows server
+      has not been deployed yet.
+    </p>
+    <button disabled>Connect to Windows</button>
+  </section>
+
+  <div class="grid">
+    <div class="tile">
+      <h3>☁ Hosting</h3>
+      <p>Cloudflare Pages</p>
+      <strong>Website setup</strong>
+    </div>
+    <div class="tile">
+      <h3>🖥 Virtualization</h3>
+      <p>QEMU / KVM</p>
+      <strong>Not deployed</strong>
+    </div>
+    <div class="tile">
+      <h3>🔒 Connection</h3>
+      <p>Cloudflare Tunnel</p>
+      <strong>Not connected</strong>
+    </div>
+  </div>
+</main>
+<footer>CloudWin · Independent open-source project</footer>
+</body>
+</html>
