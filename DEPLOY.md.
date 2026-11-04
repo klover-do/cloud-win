@@ -1,0 +1,87 @@
+
+# CloudWin Deployment
+
+## Requirements
+
+- Ubuntu Server 24.04
+- QEMU/KVM
+- Libvirt
+- 8 GB RAM minimum for the VM
+- Windows installation ISO
+- Valid Windows licence
+
+## 1. Install virtualization packages
+
+```bash
+sudo apt update
+
+sudo apt install -y \
+  qemu-kvm \
+  libvirt-daemon-system \
+  libvirt-clients \
+  virtinst \
+  qemu-utils \
+  cpu-checker \
+  python3 \
+  python3-venv \
+  git
+```
+
+## 2. Enable virtualization
+
+```bash
+sudo systemctl enable --now libvirtd
+kvm-ok
+```
+
+## 3. Download CloudWin
+
+```bash
+git clone YOUR-REPOSITORY-URL
+cd CloudWin
+sudo ./scripts/install.sh
+```
+
+## 4. Configure CloudWin
+
+```bash
+sudo cp /opt/cloudwin/config.env.example /opt/cloudwin/config.env
+sudo nano /opt/cloudwin/config.env
+```
+
+## 5. Add Windows ISO
+
+```bash
+sudo mkdir -p /var/lib/cloudwin/iso
+```
+
+Copy your legally obtained Windows ISO to:
+
+`/var/lib/cloudwin/iso/windows.iso`
+
+## 6. Create the virtual machine
+
+```bash
+sudo /opt/cloudwin/scripts/create-vm.sh
+```
+
+## 7. Start the services
+
+```bash
+sudo systemctl enable --now cloudwin-web
+sudo systemctl enable --now cloudwin-novnc
+sudo virsh start cloudwin
+```
+
+## 8. Connect securely
+
+Use SSH port forwarding:
+
+```bash
+ssh -N \
+  -L 8080:127.0.0.1:8080 \
+  -L 6080:127.0.0.1:6080 \
+  USERNAME@SERVER-IP
+```
+
+Open `http://127.0.0.1:8080` in your browser.
